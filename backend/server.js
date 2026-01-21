@@ -1,20 +1,20 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
+import express, { json } from "express";
+import { connect } from "mongoose";
+import cors from "cors";
 require("dotenv").config();
 
 const app = express();
 
-// Middleware
-app.use(cors());
-app.use(express.json());
 
-// Routes
-const taskRoutes = require("./routes/taskRoutes");
+app.use(cors());
+app.use(json());
+
+
+import taskRoutes from "./routes/taskRoutes";
 app.use("/api/tasks", taskRoutes);
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+
+connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(err));
 

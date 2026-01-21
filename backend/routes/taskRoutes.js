@@ -1,23 +1,23 @@
-const express = require("express");
-const router = express.Router();
-const Task = require("../models/Task");
+import { Router } from "express";
+const router = Router();
+import Task, { find, findByIdAndUpdate, findByIdAndDelete } from "../models/Task";
 
-// GET all tasks
+
 router.get("/", async (req, res) => {
-  const tasks = await Task.find();
+  const tasks = await find();
   res.json(tasks);
 });
 
-// CREATE task
+
 router.post("/", async (req, res) => {
   const newTask = new Task({ title: req.body.title });
   const savedTask = await newTask.save();
   res.json(savedTask);
 });
 
-// UPDATE task
+
 router.put("/:id", async (req, res) => {
-  const updated = await Task.findByIdAndUpdate(
+  const updated = await findByIdAndUpdate(
     req.params.id,
     { completed: req.body.completed },
     { new: true }
@@ -25,10 +25,10 @@ router.put("/:id", async (req, res) => {
   res.json(updated);
 });
 
-// DELETE task
+
 router.delete("/:id", async (req, res) => {
-  await Task.findByIdAndDelete(req.params.id);
+  await findByIdAndDelete(req.params.id);
   res.json({ message: "Task deleted" });
 });
 
-module.exports = router;
+export default router;
